@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Revline — online magazine for true car enthusiasts. Discover iconic builds, raw stories, and automotive culture."
+    />
+    <title>Revline | For True Car Enthusiasts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <!-- ======= HEADER / NAV ======= -->
+    <header class="header">
+      <nav class="nav">
+        <a href="#hero" class="nav__logo">REVLINE</a>
+
+        <button
+          class="nav__hamburger"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <ul class="nav__links">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#cars">Featured Cars</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ======= HERO ======= -->
+      <section id="hero" class="hero">
+        <div class="hero__content">
+          <h1 class="hero__title">Built Different.<br />Driven Obsessed.</h1>
+          <p class="hero__subtitle">
+            A magazine for those who hear an engine and feel something.
+          </p>
+          <a href="#cars" class="btn btn--primary">Explore Builds</a>
+        </div>
+      </section>
+
+      <!-- ======= ABOUT ======= -->
+      <section id="about" class="about">
+        <div class="container">
+          <h2 class="section__title">What Is Revline?</h2>
+          <p class="about__text">
+            Revline is not about getting from A to B. It's about everything that
+            happens in between — the builds, the culture, the obsession. We
+            cover the cars that real enthusiasts talk about at 2am in a parking
+            lot.
+          </p>
+        </div>
+      </section>
+
+      <!-- ======= FEATURED CARS (3 columns) ======= -->
+      <section id="cars" class="cars">
+        <div class="container">
+          <h2 class="section__title">Featured Builds</h2>
+          <div class="cars__grid">
+            <article class="car-card">
+              <img
+                src="images/car1.webp"
+                alt="1992 Mazda RX-7 FD — iconic Japanese sports car"
+                width="400"
+                height="260"
+                loading="lazy"
+              />
+              <div class="car-card__body">
+                <h3 class="car-card__title">1992 Mazda RX-7 FD</h3>
+                <p class="car-card__text">
+                  The rotary legend. Light, balanced, and unlike anything else
+                  on the road.
+                </p>
+                <a href="#" class="btn btn--outline">Read More</a>
+              </div>
+            </article>
+
+            <article class="car-card">
+              <img
+                src="images/car2.webp"
+                alt="1995 Nissan Skyline GT-R R33 — Japanese performance icon"
+                width="400"
+                height="260"
+                loading="lazy"
+              />
+              <div class="car-card__body">
+                <h3 class="car-card__title">1995 Nissan Skyline GT-R R33</h3>
+                <p class="car-card__text">
+                  All-wheel drive, twin-turbo, and a reputation that precedes
+                  itself by decades.
+                </p>
+                <a href="#" class="btn btn--outline">Read More</a>
+              </div>
+            </article>
+
+            <article class="car-card">
+              <img
+                src="images/car3.webp"
+                alt="1967 Ford Mustang Fastback — American muscle classic"
+                width="400"
+                height="260"
+                loading="lazy"
+              />
+              <div class="car-card__body">
+                <h3 class="car-card__title">1967 Ford Mustang Fastback</h3>
+                <p class="car-card__text">
+                  Pure American muscle. The car that defined a generation and
+                  still turns heads today.
+                </p>
+                <a href="#" class="btn btn--outline">Read More</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======= CONTACT ======= -->
+      <section id="contact" class="contact">
+        <div class="container">
+          <h2 class="section__title">Get In Touch</h2>
+          <p class="contact__subtitle">
+            Got a build worth featuring? Let us know.
+          </p>
+          <form class="contact__form" action="#" method="POST">
+            <div class="form__group">
+              <label for="name">Your Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="John Doe"
+                required
+              />
+            </div>
+            <div class="form__group">
+              <label for="email">Your Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="john@example.com"
+                required
+              />
+            </div>
+            <div class="form__group">
+              <label for="message">Your Message</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="5"
+                placeholder="Tell us about your build..."
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary">Send Message</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- ======= FOOTER ======= -->
+    <footer class="footer">
+      <div class="container">
+        <p class="footer__logo">REVLINE</p>
+        <p class="footer__copy">
+          &copy; 2026 Revline Magazine. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
