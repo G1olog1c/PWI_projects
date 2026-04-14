@@ -425,3 +425,19 @@ ul {
   font-size: 0.8rem;
   color: var(--color-text-muted);
 }
+
+/* ================================
+   ACTIVE NAV LINK
+================================ */
+.nav__links a.active {
+  color: var(--color-text);
+}
+
+.nav__links a.active::after {
+  width: 100%;
+}
+
+/* Header smooth hide/show transition */
+.header {
+  transition: transform var(--transition);
+}
