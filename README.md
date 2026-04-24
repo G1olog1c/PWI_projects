@@ -58,3 +58,34 @@ The project is structured for easy backend extension:
 ## Author
 
 Your Name — [github.com/G1olog1c](#)
+
+---
+
+---
+
+## PL — Opis projektu
+
+Revline to responsywna strona statyczna stworzona dla miłośników motoryzacji.
+Projekt prezentuje kultowe samochody i treści związane z kulturą car enthusiasts.
+
+### Jak uruchomić
+
+Otwórz plik `index.html` w dowolnej przeglądarce. Nie wymaga żadnego procesu budowania.
+
+### Struktura projektu
+
+- `index.html` — główny plik strony
+- `css/style.css` — style główne i zmienne CSS
+- `css/responsive.css` — media queries
+- `js/main.js` — nawigacja, smooth scroll, obsługa formularza
+- `images/` — zoptymalizowane obrazy w formacie WebP
+
+### Technologie
+
+- HTML5 (semantyczne znaczniki)
+- CSS3 (Flexbox, Grid, CSS Variables, Media Queries)
+- JavaScript (Vanilla JS)
+
+### Autor
+
+Roman Bukhta
