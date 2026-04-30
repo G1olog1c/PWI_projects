@@ -71,60 +71,9 @@
       <section id="cars" class="cars">
         <div class="container">
           <h2 class="section__title">Featured Builds</h2>
-          <div class="cars__grid">
-            <article class="car-card">
-              <img
-                src="images/car1.webp"
-                alt="1992 Mazda RX-7 FD — iconic Japanese sports car"
-                width="400"
-                height="260"
-                loading="lazy"
-              />
-              <div class="car-card__body">
-                <h3 class="car-card__title">1992 Mazda RX-7 FD</h3>
-                <p class="car-card__text">
-                  The rotary legend. Light, balanced, and unlike anything else
-                  on the road.
-                </p>
-                <a href="#" class="btn btn--outline">Read More</a>
-              </div>
-            </article>
-
-            <article class="car-card">
-              <img
-                src="images/car2.webp"
-                alt="1995 Nissan Skyline GT-R R33 — Japanese performance icon"
-                width="400"
-                height="260"
-                loading="lazy"
-              />
-              <div class="car-card__body">
-                <h3 class="car-card__title">1995 Nissan Skyline GT-R R33</h3>
-                <p class="car-card__text">
-                  All-wheel drive, twin-turbo, and a reputation that precedes
-                  itself by decades.
-                </p>
-                <a href="#" class="btn btn--outline">Read More</a>
-              </div>
-            </article>
-
-            <article class="car-card">
-              <img
-                src="images/car3.webp"
-                alt="1967 Ford Mustang Fastback — American muscle classic"
-                width="400"
-                height="260"
-                loading="lazy"
-              />
-              <div class="car-card__body">
-                <h3 class="car-card__title">1967 Ford Mustang Fastback</h3>
-                <p class="car-card__text">
-                  Pure American muscle. The car that defined a generation and
-                  still turns heads today.
-                </p>
-                <a href="#" class="btn btn--outline">Read More</a>
-              </div>
-            </article>
+          <div class="cars__grid" id="cars-grid">
+            <!-- Cars loaded dynamically from API -->
+            <div class="cars__loading">Loading builds...</div>
           </div>
         </div>
       </section>

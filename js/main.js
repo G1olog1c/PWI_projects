@@ -75,25 +75,92 @@ window.addEventListener("scroll", () => {
 });
 
 /* ================================
-   CONTACT FORM — basic validation
+   API — LOAD CARS DYNAMICALLY
 ================================ */
-const form = document.querySelector(".contact__form");
+const API_URL = "http://localhost:3000/api";
 
-form.addEventListener("submit", (e) => {
+async function loadFeaturedCars() {
+  const grid = document.getElementById("cars-grid");
+
+  try {
+    const response = await fetch(`${API_URL}/cars/featured`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch cars");
+    }
+
+    const cars = await response.json();
+
+    // Clear loading state
+    grid.innerHTML = "";
+
+    // Render each car card
+    cars.forEach((car) => {
+      const card = document.createElement("article");
+      card.className = "car-card";
+      card.innerHTML = `
+        <img
+          src="${API_URL.replace("/api", "")}/images/${car.image}"
+          alt="${car.name} — ${car.origin} sports car"
+          width="400"
+          height="260"
+          loading="lazy"
+        >
+        <div class="car-card__body">
+          <h3 class="car-card__title">${car.name}</h3>
+          <p class="car-card__text">${car.description}</p>
+          <a href="#" class="btn btn--outline">Read More</a>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  } catch (error) {
+    grid.innerHTML = `
+      <div class="cars__error">
+        Failed to load cars. Make sure the server is running.
+      </div>
+    `;
+    console.error("Error loading cars:", error);
+  }
+}
+
+// Load cars when page is ready
+document.addEventListener("DOMContentLoaded", loadFeaturedCars);
+
+/* ================================
+   API — CONTACT FORM
+================================ */
+const contactForm = document.querySelector(".contact__form");
+
+contactForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const name = form.querySelector("#name").value.trim();
-  const email = form.querySelector("#email").value.trim();
-  const message = form.querySelector("#message").value.trim();
+  const name = contactForm.querySelector("#name").value.trim();
+  const email = contactForm.querySelector("#email").value.trim();
+  const message = contactForm.querySelector("#message").value.trim();
 
   if (!name || !email || !message) {
     alert("Please fill in all fields.");
     return;
   }
 
-  // Ready for backend API connection
-  console.log("Form data ready to send:", { name, email, message });
+  try {
+    const response = await fetch(`${API_URL}/messages`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, message }),
+    });
 
-  form.reset();
-  alert("Message sent! We will get back to you soon.");
+    if (!response.ok) {
+      throw new Error("Failed to send message");
+    }
+
+    contactForm.reset();
+    alert("Message sent! We will get back to you soon.");
+  } catch (error) {
+    alert("Failed to send message. Make sure the server is running.");
+    console.error("Error sending message:", error);
+  }
 });
