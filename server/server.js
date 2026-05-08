@@ -12,8 +12,10 @@ app.use(express.json());
 
 //Serve static files (images) from the prject root
 app.use("/images", express.static(path.resolve(__dirname, "..", "images")));
-// Debug: log the images path
-console.log("Images path:", path.join(__dirname, "..", "images"));
+
+// // Debug: log the images path
+// console.log("Images path:", path.join(__dirname, "..", "images"));
+
 // ================
 // API Endpoints
 // ================
