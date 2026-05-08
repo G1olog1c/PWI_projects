@@ -293,17 +293,23 @@ ul {
 }
 
 /* ================================
-   FEATURED CARS
+   FEATURED CARS — CAROUSEL
 ================================ */
 .cars {
   padding: var(--spacing-lg) var(--spacing-sm);
   background-color: var(--color-bg);
 }
 
+.carousel {
+  position: relative;
+  overflow: hidden;
+}
+
 .cars__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   gap: var(--spacing-md);
+  transition: transform 0.5s ease;
+  will-change: transform;
 }
 
 .car-card {
@@ -312,6 +318,8 @@ ul {
   border-radius: var(--border-radius);
   overflow: hidden;
   transition: var(--transition);
+  flex: 0 0 calc(33.333% - 22px);
+  min-width: calc(33.333% - 22px);
 }
 
 .car-card:hover {
@@ -342,6 +350,54 @@ ul {
   color: var(--color-text-muted);
   margin-bottom: var(--spacing-sm);
   line-height: 1.7;
+}
+
+/* Carousel controls */
+.carousel__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+.carousel__btn {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  color: var(--color-text);
+  width: 48px;
+  height: 48px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel__btn:hover {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.carousel__btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.carousel__counter {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  letter-spacing: 1px;
+}
+
+.cars__loading,
+.cars__error {
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: var(--spacing-lg);
+  width: 100%;
 }
 
 /* ================================

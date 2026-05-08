@@ -75,32 +75,52 @@ window.addEventListener("scroll", () => {
 });
 
 /* ================================
-   API — LOAD CARS DYNAMICALLY
+   API — CAROUSEL
 ================================ */
 const API_URL = "http://localhost:3000/api";
 
-async function loadFeaturedCars() {
+let currentIndex = 0;
+const visibleCount = 3;
+let allCars = [];
+
+function renderCarousel() {
+  const grid = document.getElementById("cars-grid");
+  const prevBtn = document.getElementById("carousel-prev");
+  const nextBtn = document.getElementById("carousel-next");
+  const counter = document.getElementById("carousel-counter");
+
+  const totalSlides = Math.ceil(allCars.length / visibleCount);
+  const currentSlide = Math.floor(currentIndex / visibleCount) + 1;
+
+  // Move carousel
+  const cardWidth = grid.parentElement.offsetWidth;
+  grid.style.transform = `translateX(-${currentIndex * (cardWidth / visibleCount + 32)}px)`;
+
+  // Update buttons
+  prevBtn.disabled = currentIndex === 0;
+  nextBtn.disabled = currentIndex + visibleCount >= allCars.length;
+
+  // Update counter
+  counter.textContent = `${currentSlide} / ${totalSlides}`;
+}
+
+async function loadCars() {
   const grid = document.getElementById("cars-grid");
 
   try {
-    const response = await fetch(`${API_URL}/cars/featured`);
+    const response = await fetch(`${API_URL}/cars`);
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch cars");
-    }
+    if (!response.ok) throw new Error("Failed to fetch cars");
 
-    const cars = await response.json();
-
-    // Clear loading state
+    allCars = await response.json();
     grid.innerHTML = "";
 
-    // Render each car card
-    cars.forEach((car) => {
+    allCars.forEach((car) => {
       const card = document.createElement("article");
       card.className = "car-card";
       card.innerHTML = `
         <img
-          src="${API_URL.replace("/api", "")}/images/${car.image}"
+          src="http://localhost:3000/images/${car.image}"
           alt="${car.name} — ${car.origin} sports car"
           width="400"
           height="260"
@@ -114,6 +134,23 @@ async function loadFeaturedCars() {
       `;
       grid.appendChild(card);
     });
+
+    renderCarousel();
+
+    // Carousel buttons
+    document.getElementById("carousel-prev").addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderCarousel();
+      }
+    });
+
+    document.getElementById("carousel-next").addEventListener("click", () => {
+      if (currentIndex + visibleCount < allCars.length) {
+        currentIndex++;
+        renderCarousel();
+      }
+    });
   } catch (error) {
     grid.innerHTML = `
       <div class="cars__error">
@@ -123,6 +160,8 @@ async function loadFeaturedCars() {
     console.error("Error loading cars:", error);
   }
 }
+
+document.addEventListener("DOMContentLoaded", loadCars);
 
 // Load cars when page is ready
 document.addEventListener("DOMContentLoaded", loadFeaturedCars);

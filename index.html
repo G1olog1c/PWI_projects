@@ -67,13 +67,32 @@
         </div>
       </section>
 
-      <!-- ======= FEATURED CARS (3 columns) ======= -->
+      <!-- ======= FEATURED CARS (carousel) ======= -->
       <section id="cars" class="cars">
         <div class="container">
           <h2 class="section__title">Featured Builds</h2>
-          <div class="cars__grid" id="cars-grid">
-            <!-- Cars loaded dynamically from API -->
-            <div class="cars__loading">Loading builds...</div>
+          <div class="carousel">
+            <div class="cars__grid" id="cars-grid">
+              <div class="cars__loading">Loading builds...</div>
+            </div>
+          </div>
+          <div class="carousel__controls">
+            <button
+              class="carousel__btn"
+              id="carousel-prev"
+              aria-label="Previous cars"
+              disabled
+            >
+              &#8592;
+            </button>
+            <span class="carousel__counter" id="carousel-counter"></span>
+            <button
+              class="carousel__btn"
+              id="carousel-next"
+              aria-label="Next cars"
+            >
+              &#8594;
+            </button>
           </div>
         </div>
       </section>
