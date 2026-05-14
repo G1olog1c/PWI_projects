@@ -58,10 +58,28 @@ app.get("/api/cars/:id", (reg, res) => {
 // POST new message from contact from
 app.post("/api/messages", (reg, res) => {
   try {
-    const { name, email, message } = reg.body;
+    const { name, email, message } = req.body;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!name || !email || !message) {
-      return res.status(404).json({ error: "All fields are required" });
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: "Invalid email address" });
+    }
+
+    if (name.length < 2) {
+      return res
+        .status(400)
+        .json({ error: "Name must be at least 2 characters" });
+    }
+
+    if (message.length < 10) {
+      return res
+        .status(400)
+        .json({ error: "Message must be at least 10 characters" });
     }
 
     const insert = db.prepare(
