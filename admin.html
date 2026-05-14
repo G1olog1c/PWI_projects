@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Revline — Admin Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+  <body>
+    <header class="admin-header">
+      <a href="index.html" class="admin-header__logo">REVLINE</a>
+      <a href="index.html" class="admin-header__back">← Back to site</a>
+    </header>
+
+    <main class="admin-main">
+      <h1 class="admin-title">Admin Panel</h1>
+      <p class="admin-subtitle">Contact form submissions from the website</p>
+
+      <div class="admin-stats">
+        <div class="stat-card">
+          <div class="stat-card__value" id="messages-count">—</div>
+          <div class="stat-card__label">Total Messages</div>
+        </div>
+      </div>
+
+      <button class="btn-refresh" id="refresh-btn">Refresh</button>
+
+      <div id="messages-container">
+        <div class="admin-loading">Loading messages...</div>
+      </div>
+    </main>
+
+    <script>
+      const API_URL = "http://localhost:3000/api";
+
+      async function loadMessages() {
+        const container = document.getElementById("messages-container");
+        const countEl = document.getElementById("messages-count");
+
+        try {
+          const response = await fetch(`${API_URL}/messages`);
+
+          if (!response.ok) throw new Error("Failed to fetch messages");
+
+          const messages = await response.json();
+
+          countEl.textContent = messages.length;
+
+          if (messages.length === 0) {
+            container.innerHTML = `
+            <div class="admin-empty">
+              <div class="admin-empty__icon">📭</div>
+              <p>No messages yet. They will appear here once someone fills out the contact form.</p>
+            </div>
+          `;
+            return;
+          }
+
+          container.innerHTML = `
+          <table class="messages-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Message</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${messages
+                .map(
+                  (msg) => `
+                <tr>
+                  <td>${msg.id}</td>
+                  <td>${msg.name}</td>
+                  <td class="message-email">${msg.email}</td>
+                  <td class="message-text">${msg.message}</td>
+                  <td class="message-date">${new Date(msg.created_at).toLocaleString()}</td>
+                </tr>
+              `,
+                )
+                .join("")}
+            </tbody>
+          </table>
+        `;
+        } catch (error) {
+          container.innerHTML = `
+          <div class="admin-empty">
+            <div class="admin-empty__icon">⚠️</div>
+            <p>Failed to load messages. Make sure the server is running at http://localhost:3000</p>
+          </div>
+        `;
+          console.error("Error loading messages:", error);
+        }
+      }
+
+      document
+        .getElementById("refresh-btn")
+        .addEventListener("click", loadMessages);
+
+      loadMessages();
+    </script>
+  </body>
+</html>

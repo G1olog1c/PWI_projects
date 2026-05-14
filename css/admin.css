@@ -1,0 +1,225 @@
+/* ================================
+       CSS VARIABLES
+    ================================ */
+:root {
+  --color-bg: #0a0a0a;
+  --color-surface: #141414;
+  --color-surface-2: #1e1e1e;
+  --color-primary: #e63329;
+  --color-primary-hover: #c0281f;
+  --color-text: #f0f0f0;
+  --color-text-muted: #888888;
+  --color-border: #2a2a2a;
+  --color-success: #22c55e;
+
+  --font-heading: "Bebas Neue", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 32px;
+  --spacing-lg: 64px;
+
+  --border-radius: 6px;
+  --transition: 0.3s ease;
+}
+
+/* ================================
+       RESET & BASE
+    ================================ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+}
+
+/* ================================
+       HEADER
+    ================================ */
+.admin-header {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--spacing-sm) var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-header__logo {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  letter-spacing: 4px;
+  text-decoration: none;
+}
+
+.admin-header__back {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: var(--transition);
+}
+
+.admin-header__back:hover {
+  color: var(--color-text);
+}
+
+/* ================================
+       MAIN CONTENT
+    ================================ */
+.admin-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+.admin-title {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.admin-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: var(--spacing-md);
+}
+
+/* ================================
+       STATS BAR
+    ================================ */
+.admin-stats {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.stat-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm);
+  min-width: 160px;
+}
+
+.stat-card__value {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  color: var(--color-primary);
+}
+
+.stat-card__label {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ================================
+       MESSAGES TABLE
+    ================================ */
+.messages-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.messages-table th {
+  background-color: var(--color-surface-2);
+  padding: 12px var(--spacing-sm);
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.messages-table td {
+  padding: 14px var(--spacing-sm);
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+.messages-table tr:last-child td {
+  border-bottom: none;
+}
+
+.messages-table tr:hover td {
+  background-color: var(--color-surface-2);
+}
+
+.message-text {
+  color: var(--color-text-muted);
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+.message-date {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.message-email {
+  color: var(--color-primary);
+}
+
+/* ================================
+       EMPTY & LOADING STATES
+    ================================ */
+.admin-loading,
+.admin-empty {
+  text-align: center;
+  padding: var(--spacing-lg);
+  color: var(--color-text-muted);
+}
+
+.admin-empty__icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+/* ================================
+       REFRESH BUTTON
+    ================================ */
+.btn-refresh {
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 10px 20px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: var(--spacing-md);
+}
+
+.btn-refresh:hover {
+  background-color: var(--color-primary-hover);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}

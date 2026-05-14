@@ -10,7 +10,6 @@ hamburger.addEventListener("click", () => {
   hamburger.setAttribute("aria-expanded", isOpen);
 });
 
-// Close menu when a nav link is clicked
 document.querySelectorAll(".nav__links a").forEach((link) => {
   link.addEventListener("click", () => {
     navLinks.classList.remove("active");
@@ -92,15 +91,12 @@ function renderCarousel() {
   const totalSlides = Math.ceil(allCars.length / visibleCount);
   const currentSlide = Math.floor(currentIndex / visibleCount) + 1;
 
-  // Move carousel
   const cardWidth = grid.parentElement.offsetWidth;
   grid.style.transform = `translateX(-${currentIndex * (cardWidth / visibleCount + 32)}px)`;
 
-  // Update buttons
   prevBtn.disabled = currentIndex === 0;
   nextBtn.disabled = currentIndex + visibleCount >= allCars.length;
 
-  // Update counter
   counter.textContent = `${currentSlide} / ${totalSlides}`;
 }
 
@@ -109,7 +105,6 @@ async function loadCars() {
 
   try {
     const response = await fetch(`${API_URL}/cars`);
-
     if (!response.ok) throw new Error("Failed to fetch cars");
 
     allCars = await response.json();
@@ -137,7 +132,6 @@ async function loadCars() {
 
     renderCarousel();
 
-    // Carousel buttons
     document.getElementById("carousel-prev").addEventListener("click", () => {
       if (currentIndex > 0) {
         currentIndex--;
@@ -163,9 +157,6 @@ async function loadCars() {
 
 document.addEventListener("DOMContentLoaded", loadCars);
 
-// Load cars when page is ready
-document.addEventListener("DOMContentLoaded", loadFeaturedCars);
-
 /* ================================
    API — CONTACT FORM
 ================================ */
@@ -177,9 +168,25 @@ contactForm.addEventListener("submit", async (e) => {
   const name = contactForm.querySelector("#name").value.trim();
   const email = contactForm.querySelector("#email").value.trim();
   const message = contactForm.querySelector("#message").value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!name || !email || !message) {
     alert("Please fill in all fields.");
+    return;
+  }
+
+  if (!emailRegex.test(email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  if (name.length < 2) {
+    alert("Name must be at least 2 characters.");
+    return;
+  }
+
+  if (message.length < 10) {
+    alert("Message must be at least 10 characters.");
     return;
   }
 
@@ -192,9 +199,7 @@ contactForm.addEventListener("submit", async (e) => {
       body: JSON.stringify({ name, email, message }),
     });
 
-    if (!response.ok) {
-      throw new Error("Failed to send message");
-    }
+    if (!response.ok) throw new Error("Failed to send message");
 
     contactForm.reset();
     alert("Message sent! We will get back to you soon.");
