@@ -90,13 +90,27 @@ function getVisibleCount() {
   return 3;
 }
 
-function renderCarousel() {
+function getVisibleCount() {
+  const width = window.innerWidth;
+  if (width <= 768) return 1;
+  if (width <= 1024) return 2;
+  return 3;
+}
+
+function getSlideStep() {
   const grid = document.getElementById("cars-grid");
   const visible = getVisibleCount();
-  const cardWidth = grid.parentElement.offsetWidth / visible;
+  const gap = parseFloat(getComputedStyle(grid).gap) || 32;
+  const containerWidth = grid.parentElement.offsetWidth;
+  const cardWidth = (containerWidth - gap * (visible - 1)) / visible;
+  return cardWidth + gap;
+}
 
+function renderCarousel() {
+  const grid = document.getElementById("cars-grid");
+  const slideStep = getSlideStep();
   grid.style.transition = "transform 0.5s ease";
-  grid.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+  grid.style.transform = `translateX(-${currentIndex * slideStep}px)`;
 }
 
 function goToNext() {
@@ -104,12 +118,11 @@ function goToNext() {
   isAnimating = true;
 
   const grid = document.getElementById("cars-grid");
-  const visible = getVisibleCount();
-  const cardWidth = grid.parentElement.offsetWidth / visible;
+  const slideStep = getSlideStep();
 
   currentIndex++;
   grid.style.transition = "transform 0.5s ease";
-  grid.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+  grid.style.transform = `translateX(-${currentIndex * slideStep}px)`;
 
   if (currentIndex >= allCars.length) {
     setTimeout(() => {
@@ -130,18 +143,17 @@ function goToPrev() {
   isAnimating = true;
 
   const grid = document.getElementById("cars-grid");
-  const visible = getVisibleCount();
-  const cardWidth = grid.parentElement.offsetWidth / visible;
+  const slideStep = getSlideStep();
 
   if (currentIndex <= 0) {
     grid.style.transition = "none";
     currentIndex = allCars.length;
-    grid.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+    grid.style.transform = `translateX(-${currentIndex * slideStep}px)`;
 
     setTimeout(() => {
       currentIndex--;
       grid.style.transition = "transform 0.5s ease";
-      grid.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+      grid.style.transform = `translateX(-${currentIndex * slideStep}px)`;
       setTimeout(() => {
         isAnimating = false;
       }, 500);
@@ -149,7 +161,7 @@ function goToPrev() {
   } else {
     currentIndex--;
     grid.style.transition = "transform 0.5s ease";
-    grid.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+    grid.style.transform = `translateX(-${currentIndex * slideStep}px)`;
     setTimeout(() => {
       isAnimating = false;
     }, 500);
