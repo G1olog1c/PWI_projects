@@ -10,7 +10,7 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-//Serve static files (images) from the prject root
+//Serve static files (images) from the project root
 app.use("/images", express.static(path.resolve(__dirname, "..", "images")));
 
 // // Debug: log the images path
@@ -41,11 +41,11 @@ app.get("/api/cars/featured", (req, res) => {
 });
 
 // Get single car by ID
-app.get("/api/cars/:id", (reg, res) => {
+app.get("/api/cars/:id", (req, res) => {
   try {
     const car = db
       .prepare("SELECT * FROM cars WHERE id = ?")
-      .get(reg.params.id);
+      .get(req.params.id);
     if (!car) {
       return res.status(404).json({ error: "Car not found" });
     }
@@ -56,7 +56,7 @@ app.get("/api/cars/:id", (reg, res) => {
 });
 
 // POST new message from contact from
-app.post("/api/messages", (reg, res) => {
+app.post("/api/messages", (req, res) => {
   try {
     const { name, email, message } = req.body;
 

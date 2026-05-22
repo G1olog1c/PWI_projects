@@ -90,13 +90,6 @@ function getVisibleCount() {
   return 3;
 }
 
-function getVisibleCount() {
-  const width = window.innerWidth;
-  if (width <= 768) return 1;
-  if (width <= 1024) return 2;
-  return 3;
-}
-
 function getSlideStep() {
   const grid = document.getElementById("cars-grid");
   const visible = getVisibleCount();

@@ -119,7 +119,7 @@ ul {
   color: #fff;
 }
 
-/* Focus visible для доступності */
+/* Focus visible for accessibility */
 *:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 3px;
@@ -215,7 +215,7 @@ ul {
   transition: var(--transition);
 }
 
-/* Hamburger анімація при відкритті */
+/* Hamburger animation on open */
 .nav__hamburger.active span:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
 }
