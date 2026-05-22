@@ -1,24 +1,41 @@
 /* ================================
-   TABLET PORTRAIT — under 768px
+   MOBILE — up to 480px
+================================ */
+@media (max-width: 480px) {
+  .hero__title {
+    font-size: 3.2rem;
+  }
+  .hero__subtitle {
+    font-size: 1rem;
+  }
+  .section__title {
+    font-size: 1.9rem;
+  }
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+  .contact__form {
+    width: 100%;
+  }
+}
+
+/* ================================
+   TABLET PORTRAIT — up to 768px
 ================================ */
 @media (max-width: 768px) {
   .section__title {
     font-size: 2.2rem;
   }
-
-  /* Hero */
   .hero__title {
     font-size: 4.5rem;
   }
 
-  /* 3 columns → 1 column */
-  .cars__grid {
-    grid-template-columns: 1fr;
-    max-width: 480px;
-    margin: 0 auto;
+  .car-card {
+    flex: 0 0 100% !important;
+    min-width: 100% !important;
   }
 
-  /* Nav — show hamburger */
   .nav__hamburger {
     display: flex;
   }
@@ -41,61 +58,42 @@
   .nav__links.active {
     display: flex;
   }
-
   .nav__links a {
     font-size: 1.2rem;
+  }
+
+  .modal__specs {
+    grid-template-columns: 1fr;
   }
 }
 
 /* ================================
-   TABLET LANDSCAPE — 769px – 1024px
+   TABLET LANDSCAPE — 769px to 1024px
 ================================ */
 @media (min-width: 769px) and (max-width: 1024px) {
   .hero__title {
     font-size: 5.5rem;
   }
 
-  /* 3 columns → 2 columns */
-  .cars__grid {
-    grid-template-columns: repeat(2, 1fr);
+  .car-card {
+    flex: 0 0 calc(50% - 16px) !important;
+    min-width: calc(50% - 16px) !important;
   }
 }
 
 /* ================================
-   MOBILE — under 480px
-================================ */
-@media (max-width: 480px) {
-  .hero__title {
-    font-size: 3.2rem;
-  }
-
-  .hero__subtitle {
-    font-size: 1rem;
-  }
-
-  .section__title {
-    font-size: 1.9rem;
-  }
-
-  .btn {
-    width: 100%;
-    text-align: center;
-  }
-
-  .contact__form {
-    width: 100%;
-  }
-}
-
-/* ================================
-   DESKTOP — 1281px and more
+   DESKTOP — 1281px and above
 ================================ */
 @media (min-width: 1281px) {
   .hero__title {
     font-size: 8rem;
   }
-
   .cars__grid {
     gap: 40px;
+  }
+
+  .car-card {
+    flex: 0 0 calc(33.333% - 27px) !important;
+    min-width: calc(33.333% - 27px) !important;
   }
 }

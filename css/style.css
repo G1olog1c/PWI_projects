@@ -293,111 +293,117 @@ ul {
 }
 
 /* ================================
-   FEATURED CARS — CAROUSEL
+   MODAL
 ================================ */
-.cars {
-  padding: var(--spacing-lg) var(--spacing-sm);
-  background-color: var(--color-bg);
-}
-
-.carousel {
-  position: relative;
-  overflow: hidden;
-}
-
-.cars__grid {
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
   display: flex;
-  gap: var(--spacing-md);
-  transition: transform 0.5s ease;
-  will-change: transform;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.car-card {
+.modal--visible {
+  opacity: 1;
+}
+
+.modal__overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.modal__content {
+  position: relative;
+  z-index: 1;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
-  overflow: hidden;
+  max-width: 680px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.modal--visible .modal__content {
+  transform: translateY(0);
+}
+
+.modal__close {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
   transition: var(--transition);
-  flex: 0 0 calc(33.333% - 22px);
-  min-width: calc(33.333% - 22px);
+  z-index: 2;
 }
 
-.car-card:hover {
-  border-color: var(--color-primary);
-  transform: translateY(-4px);
+.modal__close:hover {
+  color: var(--color-primary);
 }
 
-.car-card img {
+.modal__image {
   width: 100%;
-  height: 220px;
+  height: 280px;
   object-fit: cover;
 }
 
-.car-card__body {
+.modal__body {
+  padding: var(--spacing-md);
+}
+
+.modal__title {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  letter-spacing: 2px;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text);
+}
+
+.modal__description {
+  color: var(--color-text-muted);
+  line-height: 1.8;
+  margin-bottom: var(--spacing-md);
+}
+
+.modal__specs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-sm);
+}
+
+.modal__spec {
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
   padding: var(--spacing-sm);
 }
 
-.car-card__title {
+.modal__spec-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.modal__spec-value {
+  display: block;
   font-family: var(--font-heading);
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   letter-spacing: 1px;
-  margin-bottom: var(--spacing-xs);
-  color: var(--color-text);
-}
-
-.car-card__text {
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  margin-bottom: var(--spacing-sm);
-  line-height: 1.7;
-}
-
-/* Carousel controls */
-.carousel__controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-md);
-}
-
-.carousel__btn {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
-  color: var(--color-text);
-  width: 48px;
-  height: 48px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.carousel__btn:hover {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
-}
-
-.carousel__btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-.carousel__counter {
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-  letter-spacing: 1px;
-}
-
-.cars__loading,
-.cars__error {
-  color: var(--color-text-muted);
-  text-align: center;
-  padding: var(--spacing-lg);
-  width: 100%;
+  color: var(--color-primary);
 }
 
 /* ================================
@@ -496,4 +502,122 @@ ul {
 /* Header smooth hide/show transition */
 .header {
   transition: transform var(--transition);
+}
+
+/* ================================
+   MODAL
+================================ */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal--visible {
+  opacity: 1;
+}
+
+.modal__overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.modal__content {
+  position: relative;
+  z-index: 1;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  max-width: 680px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.modal--visible .modal__content {
+  transform: translateY(0);
+}
+
+.modal__close {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: var(--transition);
+  z-index: 2;
+}
+
+.modal__close:hover {
+  color: var(--color-primary);
+}
+
+.modal__image {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}
+
+.modal__body {
+  padding: var(--spacing-md);
+}
+
+.modal__title {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  letter-spacing: 2px;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text);
+}
+
+.modal__description {
+  color: var(--color-text-muted);
+  line-height: 1.8;
+  margin-bottom: var(--spacing-md);
+}
+
+.modal__specs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-sm);
+}
+
+.modal__spec {
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm);
+}
+
+.modal__spec-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.modal__spec-value {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  color: var(--color-primary);
+}
+.car-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 8px 32px rgba(230, 51, 41, 0.15);
 }

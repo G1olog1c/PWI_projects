@@ -81,23 +81,99 @@ const API_URL = "http://localhost:3000/api";
 let currentIndex = 0;
 const visibleCount = 3;
 let allCars = [];
+let isAnimating = false;
+
+function getVisibleCount() {
+  const width = window.innerWidth;
+  if (width <= 768) return 1;
+  if (width <= 1024) return 2;
+  return 3;
+}
 
 function renderCarousel() {
   const grid = document.getElementById("cars-grid");
-  const prevBtn = document.getElementById("carousel-prev");
-  const nextBtn = document.getElementById("carousel-next");
-  const counter = document.getElementById("carousel-counter");
+  const visible = getVisibleCount();
+  const cardWidth = grid.parentElement.offsetWidth / visible;
 
-  const totalSlides = Math.ceil(allCars.length / visibleCount);
-  const currentSlide = Math.floor(currentIndex / visibleCount) + 1;
+  grid.style.transition = "transform 0.5s ease";
+  grid.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+}
 
-  const cardWidth = grid.parentElement.offsetWidth;
-  grid.style.transform = `translateX(-${currentIndex * (cardWidth / visibleCount + 32)}px)`;
+function goToNext() {
+  if (isAnimating) return;
+  isAnimating = true;
 
-  prevBtn.disabled = currentIndex === 0;
-  nextBtn.disabled = currentIndex + visibleCount >= allCars.length;
+  const grid = document.getElementById("cars-grid");
+  const visible = getVisibleCount();
+  const cardWidth = grid.parentElement.offsetWidth / visible;
 
-  counter.textContent = `${currentSlide} / ${totalSlides}`;
+  currentIndex++;
+  grid.style.transition = "transform 0.5s ease";
+  grid.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+
+  if (currentIndex >= allCars.length) {
+    setTimeout(() => {
+      grid.style.transition = "none";
+      currentIndex = 0;
+      grid.style.transform = `translateX(0px)`;
+      isAnimating = false;
+    }, 500);
+  } else {
+    setTimeout(() => {
+      isAnimating = false;
+    }, 500);
+  }
+}
+
+function goToPrev() {
+  if (isAnimating) return;
+  isAnimating = true;
+
+  const grid = document.getElementById("cars-grid");
+  const visible = getVisibleCount();
+  const cardWidth = grid.parentElement.offsetWidth / visible;
+
+  if (currentIndex <= 0) {
+    grid.style.transition = "none";
+    currentIndex = allCars.length;
+    grid.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+
+    setTimeout(() => {
+      currentIndex--;
+      grid.style.transition = "transform 0.5s ease";
+      grid.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+      setTimeout(() => {
+        isAnimating = false;
+      }, 500);
+    }, 20);
+  } else {
+    currentIndex--;
+    grid.style.transition = "transform 0.5s ease";
+    grid.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+    setTimeout(() => {
+      isAnimating = false;
+    }, 500);
+  }
+}
+
+function createCard(car) {
+  const card = document.createElement("article");
+  card.className = "car-card";
+  card.innerHTML = `
+    <img
+      src="http://localhost:3000/images/${car.image}"
+      alt="${car.name} — ${car.origin} sports car"
+      width="400"
+      height="260"
+      loading="lazy"
+    >
+    <div class="car-card__body">
+      <h3 class="car-card__title">${car.name}</h3>
+      <p class="car-card__text">${car.description}</p>
+      <button class="btn btn--outline car-card__btn" data-id="${car.id}">Read More</button>
+    </div>
+  `;
+  return card;
 }
 
 async function loadCars() {
@@ -110,40 +186,34 @@ async function loadCars() {
     allCars = await response.json();
     grid.innerHTML = "";
 
+    // Render all real cards
     allCars.forEach((car) => {
-      const card = document.createElement("article");
-      card.className = "car-card";
-      card.innerHTML = `
-        <img
-          src="http://localhost:3000/images/${car.image}"
-          alt="${car.name} — ${car.origin} sports car"
-          width="400"
-          height="260"
-          loading="lazy"
-        >
-        <div class="car-card__body">
-          <h3 class="car-card__title">${car.name}</h3>
-          <p class="car-card__text">${car.description}</p>
-          <a href="#" class="btn btn--outline">Read More</a>
-        </div>
-      `;
-      grid.appendChild(card);
+      grid.appendChild(createCard(car));
+    });
+
+    // Add cloned first 3 cards at the end to prevent gap
+    allCars.slice(0, visibleCount).forEach((car) => {
+      const clone = createCard(car);
+      clone.setAttribute("aria-hidden", "true");
+      grid.appendChild(clone);
     });
 
     renderCarousel();
 
-    document.getElementById("carousel-prev").addEventListener("click", () => {
-      if (currentIndex > 0) {
-        currentIndex--;
-        renderCarousel();
-      }
-    });
+    document
+      .getElementById("carousel-prev")
+      .addEventListener("click", goToPrev);
+    document
+      .getElementById("carousel-next")
+      .addEventListener("click", goToNext);
 
-    document.getElementById("carousel-next").addEventListener("click", () => {
-      if (currentIndex + visibleCount < allCars.length) {
-        currentIndex++;
-        renderCarousel();
-      }
+    // Read More modal
+    grid.addEventListener("click", (e) => {
+      const btn = e.target.closest(".car-card__btn");
+      if (!btn) return;
+      const carId = btn.getAttribute("data-id");
+      const car = allCars.find((c) => c.id == carId);
+      if (car) openModal(car);
     });
   } catch (error) {
     grid.innerHTML = `
@@ -153,6 +223,10 @@ async function loadCars() {
     `;
     console.error("Error loading cars:", error);
   }
+  window.addEventListener("resize", () => {
+    currentIndex = 0;
+    renderCarousel();
+  });
 }
 
 document.addEventListener("DOMContentLoaded", loadCars);
@@ -208,3 +282,71 @@ contactForm.addEventListener("submit", async (e) => {
     console.error("Error sending message:", error);
   }
 });
+
+/* ================================
+   MODAL — CAR DETAILS
+================================ */
+function openModal(car) {
+  const existing = document.getElementById("car-modal");
+  if (existing) existing.remove();
+
+  const modal = document.createElement("div");
+  modal.id = "car-modal";
+  modal.className = "modal";
+  modal.innerHTML = `
+    <div class="modal__overlay"></div>
+    <div class="modal__content">
+      <button class="modal__close" aria-label="Close modal">&times;</button>
+      <img
+        src="http://localhost:3000/images/${car.image}"
+        alt="${car.name}"
+        class="modal__image"
+      >
+      <div class="modal__body">
+        <h2 class="modal__title">${car.name}</h2>
+        <p class="modal__description">${car.description}</p>
+        <div class="modal__specs">
+          <div class="modal__spec">
+            <span class="modal__spec-label">Year</span>
+            <span class="modal__spec-value">${car.year}</span>
+          </div>
+          <div class="modal__spec">
+            <span class="modal__spec-label">Origin</span>
+            <span class="modal__spec-value">${car.origin}</span>
+          </div>
+          <div class="modal__spec">
+            <span class="modal__spec-label">Engine</span>
+            <span class="modal__spec-value">${car.engine}</span>
+          </div>
+          <div class="modal__spec">
+            <span class="modal__spec-label">Power</span>
+            <span class="modal__spec-value">${car.power} hp</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+  document.body.style.overflow = "hidden";
+
+  setTimeout(() => modal.classList.add("modal--visible"), 10);
+
+  modal.querySelector(".modal__close").addEventListener("click", closeModal);
+  modal.querySelector(".modal__overlay").addEventListener("click", closeModal);
+
+  document.addEventListener("keydown", handleEscape);
+}
+
+function closeModal() {
+  const modal = document.getElementById("car-modal");
+  if (!modal) return;
+  modal.classList.remove("modal--visible");
+  document.body.style.overflow = "";
+  document.removeEventListener("keydown", handleEscape);
+  setTimeout(() => modal.remove(), 300);
+}
+
+function handleEscape(e) {
+  if (e.key === "Escape") closeModal();
+}
